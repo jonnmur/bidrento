@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Add from './Add';
 import { Modal } from 'bootstrap';
 
@@ -6,7 +6,6 @@ var parentsIds = [];
 var childrenIds = [];
 
 function openModal(parents = [], children = []) {
-
     if (parents.length > 0) {
         parentsIds = parents.map((item) =>  item.id);
     }
@@ -17,6 +16,8 @@ function openModal(parents = [], children = []) {
 
     let addModal = new Modal(document.getElementById('addModal'));
     addModal.show();
+
+    return parentsIds, childrenIds;
 }
 
 function getChildren(item, level) {
@@ -40,9 +41,20 @@ function getChildren(item, level) {
 }
 
 export default function PropertiesList({ properties }) {
+    const [parentsIds, setParentsIds] = React.useState([]);
+    const [childrenIds, setChildrensIds] = React.useState([]);
+    const setIds = function(parentsIds, childrenIds) {
+        setParentsIds(parentsIds);
+        setChildrensIds(childrenIds);
+    }
+    
+    React.useEffect(() => {
+        setIds(parentsIds, childrenIds);
+      }, []);
 
     return (
         <div>
+            {childrenIds}
             <div className="row">
                 <div className="col"></div>
                 <div className="col">
@@ -56,7 +68,7 @@ export default function PropertiesList({ properties }) {
                             {property.name}
                         </div>
                         <div className="col">
-                        <div onClick={() => openModal(property.parents, property.children)}> + </div>
+                        <div onClick={() => setIds(openModal(property.parents, property.children))}> + </div>
                         </div>
                     </div>
                     {getChildren(property, ' - ')}
