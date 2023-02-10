@@ -5322,7 +5322,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-__webpack_require__(/*! ./components/Properties */ "./resources/js/components/Properties.js");
+__webpack_require__(/*! ./components/Main.js */ "./resources/js/components/Main.js");
 
 /***/ }),
 
@@ -5378,12 +5378,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 
 
 
 function Add(_ref) {
-  var parentsIds = _ref.parentsIds,
-    childrenIds = _ref.childrenIds;
+  var parents = _ref.parents,
+    children = _ref.children,
+    onSaveProperty = _ref.onSaveProperty;
+  var name = document.getElementById('name');
+  var selectedChildren = document.getElementById('childIds');
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "modal fade",
@@ -5407,15 +5416,53 @@ function Add(_ref) {
               "data-bs-dismiss": "modal",
               "aria-label": "Close"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "modal-body",
-            children: [parentsIds, childrenIds]
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              className: "mb-3",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+                children: "Name:"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+                className: "form-control",
+                id: "name"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), parents.length > 0 && parents.map(function (parent) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+                    children: ["Parents: ", parent.name]
+                  })
+                }, parent.id);
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+                children: "Children:"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("select", {
+                className: "form-select",
+                multiple: true,
+                "aria-label": "childIds",
+                id: "childIds",
+                children: children.length > 0 && children.map(function (child) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+                    value: child.id,
+                    children: child.name
+                  }, child.id);
+                })
+              })]
+            })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "modal-footer",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
               type: "button",
               className: "btn btn-primary",
               "data-bs-dismiss": "modal",
+              onClick: function onClick() {
+                return onSaveProperty({
+                  name: name.value,
+                  parents: parents.map(function (parent) {
+                    return parent.id;
+                  }),
+                  children: _toConsumableArray(selectedChildren.selectedOptions).map(function (option) {
+                    return option.value;
+                  })
+                });
+              },
               children: "Save"
             })
           })]
@@ -5427,10 +5474,10 @@ function Add(_ref) {
 
 /***/ }),
 
-/***/ "./resources/js/components/Properties.js":
-/*!***********************************************!*\
-  !*** ./resources/js/components/Properties.js ***!
-  \***********************************************/
+/***/ "./resources/js/components/Main.js":
+/*!*****************************************!*\
+  !*** ./resources/js/components/Main.js ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5443,7 +5490,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _PropertiesList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PropertiesList */ "./resources/js/components/PropertiesList.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -5455,24 +5507,84 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var baseURL = 'http://localhost:8000/api/node';
-function Properties() {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_1__.useState([]),
-    _React$useState2 = _slicedToArray(_React$useState, 2),
-    properties = _React$useState2[0],
-    setProperties = _React$useState2[1];
+
+function Main() {
+  var baseURL = 'http://localhost:8000/api/property';
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    properties = _useState2[0],
+    setProperties = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    _useState4 = _slicedToArray(_useState3, 2),
+    parents = _useState4[0],
+    setParents = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    _useState6 = _slicedToArray(_useState5, 2),
+    children = _useState6[0],
+    setChildren = _useState6[1];
   react__WEBPACK_IMPORTED_MODULE_1__.useEffect(function () {
+    getProperties();
+  }, []);
+  var getProperties = function getProperties() {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(baseURL).then(function (response) {
       setProperties(response.data.data);
     });
-  }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_PropertiesList__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    properties: properties
+  };
+  var addProperty = function addProperty(property) {
+    var children = [];
+    if (property !== null) {
+      setParents([property]);
+      var siblings = property.children.map(function (child) {
+        return child;
+      });
+      siblings.forEach(function (sibling) {
+        sibling.children.forEach(function (child) {
+          children.push(child);
+        });
+      });
+    } else {
+      setParents([]);
+    }
+    if (children.length > 0) {
+      setChildren(_toConsumableArray(new Map(children.map(function (item) {
+        return [item['id'], item];
+      })).values()));
+    } else {
+      setChildren([]);
+    }
+    var addModal = new bootstrap__WEBPACK_IMPORTED_MODULE_4__.Modal(document.getElementById('addModal'));
+    addModal.show();
+  };
+  var saveProperty = function saveProperty(property) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post(baseURL, {
+      name: property.name,
+      parents: property.parents,
+      children: property.children
+    }).then(function (response) {
+      console.log(response);
+      getProperties();
+      resetInputs();
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  };
+  var resetInputs = function resetInputs() {
+    var name = document.getElementById('name');
+    name.value = '';
+    var selectedChildren = document.getElementById('childIds');
+    selectedChildren.value = '';
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_PropertiesList__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    properties: properties,
+    parents: parents,
+    children: children,
+    onAddProperty: addProperty,
+    onSaveProperty: saveProperty
   });
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Properties);
-if (document.getElementById('properties')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Properties, {}), document.getElementById('properties'));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Main);
+if (document.getElementById('main')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Main, {}), document.getElementById('main'));
 }
 
 /***/ }),
@@ -5486,120 +5598,82 @@ if (document.getElementById('properties')) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ PropertiesList)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _Add__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Add */ "./resources/js/components/Add.js");
-/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+/* harmony import */ var _Add__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Add */ "./resources/js/components/Add.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
-
-
-var parentsIds = [];
-var childrenIds = [];
-function openModal() {
-  var parents = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var children = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  if (parents.length > 0) {
-    parentsIds = parents.map(function (item) {
-      return item.id;
+var PropertiesList = function PropertiesList(_ref) {
+  var properties = _ref.properties,
+    onAddProperty = _ref.onAddProperty,
+    onSaveProperty = _ref.onSaveProperty,
+    parents = _ref.parents,
+    children = _ref.children;
+  var getChildren = function getChildren(item, level) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      children: item.children.length > 0 && item.children.map(function (child) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "row",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              className: "col",
+              children: [level, " ", child.name]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "col",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                onClick: function onClick() {
+                  return onAddProperty(child);
+                },
+                children: " + "
+              })
+            })]
+          }), child.children.length > 0 && getChildren(child, level + ' - ')]
+        }, child.id);
+      })
     });
-  }
-  if (children.length > 0) {
-    childrenIds = children.map(function (item) {
-      return item.id;
-    });
-  }
-  var addModal = new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(document.getElementById('addModal'));
-  addModal.show();
-  return parentsIds, childrenIds;
-}
-function getChildren(item, level) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-    children: item.children.length > 0 && item.children.map(function (child) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "row",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            className: "col",
-            children: [level, " ", child.name]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "col",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              onClick: function onClick() {
-                return openModal(child.parents, child.children);
-              },
-              children: " + "
-            })
-          })]
-        }), child.children.length > 0 && getChildren(child, level + ' - ')]
-      }, child.id);
-    })
-  });
-}
-function PropertiesList(_ref) {
-  var properties = _ref.properties;
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState([]),
-    _React$useState2 = _slicedToArray(_React$useState, 2),
-    parentsIds = _React$useState2[0],
-    setParentsIds = _React$useState2[1];
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0__.useState([]),
-    _React$useState4 = _slicedToArray(_React$useState3, 2),
-    childrenIds = _React$useState4[0],
-    setChildrensIds = _React$useState4[1];
-  var setIds = function setIds(parentsIds, childrenIds) {
-    setParentsIds(parentsIds);
-    setChildrensIds(childrenIds);
   };
-  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(function () {
-    setIds(parentsIds, childrenIds);
-  }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    children: [childrenIds, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "row",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "col"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "col",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           onClick: function onClick() {
-            return openModal([], []);
+            return onAddProperty(null);
           },
           children: " + "
         })
       })]
     }), properties.length > 0 && properties.map(function (property) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "row",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "col",
             children: property.name
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "col",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
               onClick: function onClick() {
-                return setIds(openModal(property.parents, property.children));
+                return onAddProperty(property);
               },
               children: " + "
             })
           })]
         }), getChildren(property, ' - ')]
       }, property.id);
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Add__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      parentsIds: parentsIds,
-      childrenIds: childrenIds
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Add__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      parents: parents,
+      children: children,
+      onSaveProperty: onSaveProperty
     })]
   });
-}
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PropertiesList);
 
 /***/ }),
 

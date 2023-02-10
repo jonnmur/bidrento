@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('node', App\Http\Controllers\Property\NodeController::class);
+Route::apiResource('property', App\Http\Controllers\Property\NodeController::class);

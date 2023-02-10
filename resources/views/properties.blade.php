@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="container">
-        <div id="properties"></div>
+        <div id="main"></div>
     </div>
 </body>
 </html>
