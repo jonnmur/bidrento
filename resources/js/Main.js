@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import PropertiesList from './PropertiesList';
+import PropertiesList from './components/PropertiesList';
 import { Modal } from 'bootstrap';
 
 function Main() {
