@@ -5425,13 +5425,13 @@ function Add(_ref) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
                 className: "form-control",
                 id: "name"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), parents.length > 0 && parents.map(function (parent) {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+                children: "Parents:"
+              }), parents.length > 0 && parents.map(function (parent) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
-                    children: ["Parents: ", parent.name]
-                  })
+                  children: parent.name
                 }, parent.id);
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
                 children: "Children:"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("select", {
                 className: "form-select",
@@ -5516,19 +5516,34 @@ function Main() {
     setProperties = _useState2[1];
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
     _useState4 = _slicedToArray(_useState3, 2),
-    parents = _useState4[0],
-    setParents = _useState4[1];
+    property = _useState4[0],
+    setProperty = _useState4[1];
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
     _useState6 = _slicedToArray(_useState5, 2),
-    children = _useState6[0],
-    setChildren = _useState6[1];
+    parents = _useState6[0],
+    setParents = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    _useState8 = _slicedToArray(_useState7, 2),
+    children = _useState8[0],
+    setChildren = _useState8[1];
   react__WEBPACK_IMPORTED_MODULE_1__.useEffect(function () {
     getProperties();
   }, []);
   var getProperties = function getProperties() {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(baseURL).then(function (response) {
       setProperties(response.data.data);
+    })["catch"](function (error) {
+      console.log(error.response.data);
     });
+  };
+  var getProperty = function getProperty(property) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get(baseURL + '/' + property.name).then(function (response) {
+      setProperty(response.data.data);
+    })["catch"](function (error) {
+      console.log(error.response.data);
+    });
+    var getModal = new bootstrap__WEBPACK_IMPORTED_MODULE_4__.Modal(document.getElementById('getModal'));
+    getModal.show();
   };
   var addProperty = function addProperty(property) {
     var children = [];
@@ -5561,11 +5576,10 @@ function Main() {
       parents: property.parents,
       children: property.children
     }).then(function (response) {
-      console.log(response);
       getProperties();
       resetInputs();
     })["catch"](function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
   };
   var resetInputs = function resetInputs() {
@@ -5576,10 +5590,12 @@ function Main() {
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_PropertiesList__WEBPACK_IMPORTED_MODULE_3__["default"], {
     properties: properties,
+    property: property,
     parents: parents,
     children: children,
     onAddProperty: addProperty,
-    onSaveProperty: saveProperty
+    onSaveProperty: saveProperty,
+    onGetProperty: getProperty
   });
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Main);
@@ -5601,28 +5617,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Add__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Add */ "./resources/js/components/Add.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Property__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Property */ "./resources/js/components/Property.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
 var PropertiesList = function PropertiesList(_ref) {
   var properties = _ref.properties,
+    property = _ref.property,
     onAddProperty = _ref.onAddProperty,
     onSaveProperty = _ref.onSaveProperty,
+    onGetProperty = _ref.onGetProperty,
     parents = _ref.parents,
     children = _ref.children;
   var getChildren = function getChildren(item, level) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       children: item.children.length > 0 && item.children.map(function (child) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             className: "row",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
               className: "col",
+              onClick: function onClick() {
+                return onGetProperty(child);
+              },
               children: [level, " ", child.name]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "col",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
                 onClick: function onClick() {
                   return onAddProperty(child);
                 },
@@ -5634,14 +5657,14 @@ var PropertiesList = function PropertiesList(_ref) {
       })
     });
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "row",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "col"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "col",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           onClick: function onClick() {
             return onAddProperty(null);
           },
@@ -5649,15 +5672,18 @@ var PropertiesList = function PropertiesList(_ref) {
         })
       })]
     }), properties.length > 0 && properties.map(function (property) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "row",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "col",
+            onClick: function onClick() {
+              return onGetProperty(property);
+            },
             children: property.name
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "col",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               onClick: function onClick() {
                 return onAddProperty(property);
               },
@@ -5666,14 +5692,84 @@ var PropertiesList = function PropertiesList(_ref) {
           })]
         }), getChildren(property, ' - ')]
       }, property.id);
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Add__WEBPACK_IMPORTED_MODULE_0__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Add__WEBPACK_IMPORTED_MODULE_0__["default"], {
       parents: parents,
       children: children,
       onSaveProperty: onSaveProperty
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Property__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      property: property
     })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PropertiesList);
+
+/***/ }),
+
+/***/ "./resources/js/components/Property.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Property.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Property)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+function Property(_ref) {
+  var property = _ref.property;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "modal fade",
+      id: "getModal",
+      tabIndex: "-1",
+      "aria-labelledby": "getModalLabel",
+      "aria-hidden": "true",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "modal-dialog",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "modal-content",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "modal-header",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
+              className: "modal-title fs-5",
+              id: "getModalLabel",
+              children: "View property"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+              type: "button",
+              className: "btn-close",
+              "data-bs-dismiss": "modal",
+              "aria-label": "Close"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "modal-body",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "mb-3",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("ul", {
+                className: "list-group list-group-flush",
+                children: property.length > 0 && property.map(function (item) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("li", {
+                      className: "list-group-item",
+                      children: [item.name, " - ", item.relation]
+                    })
+                  }, item.id);
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "modal-footer"
+          })]
+        })
+      })
+    })
+  });
+}
 
 /***/ }),
 

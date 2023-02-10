@@ -17,14 +17,18 @@ export default function Add({ parents, children, onSaveProperty}) {
                 <div className="mb-3">
                     <p>Name:</p>
                     <input className="form-control" id="name"></input>
+
                     <br></br>
-                    
+
+                    <p>Parents:</p>
                     {parents.length > 0 && parents.map((parent) =>
                         <div key={parent.id}>
-                            <p>Parents: {parent.name}</p>
+                            {parent.name}
                         </div>
                     )}
-                    
+
+                    <br></br>
+
                     <p>Children:</p>
                     <select className="form-select" multiple aria-label="childIds" id="childIds">
                     {children.length > 0 && children.map((child) =>
@@ -36,14 +40,19 @@ export default function Add({ parents, children, onSaveProperty}) {
                 </div>
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" 
+                    <button 
+                        type="button"
+                        className="btn btn-primary"
+                        data-bs-dismiss="modal" 
                         onClick={() => onSaveProperty(
                             {
                                 name: name.value,
                                 parents: parents.map((parent) =>  parent.id),
                                 children: [...selectedChildren.selectedOptions].map(option => option.value)
                             }
-                        )}>Save</button>
+                        )}>
+                        Save
+                    </button>
                 </div>
                 </div>
             </div>

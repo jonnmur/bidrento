@@ -24,6 +24,10 @@ class NodeController extends Controller
     {
         $node = Node::where('name', $name)->with('parents', 'children')->first();
 
+        if (empty($node)) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+
         $data = [];
 
         // Self

@@ -7,6 +7,7 @@ import { Modal } from 'bootstrap';
 function Main() {
     const baseURL = 'http://localhost:8000/api/property';
     const [properties, setProperties] = useState([]);
+    const [property, setProperty] = useState([]);
     const [parents, setParents] = useState([]);
     const [children, setChildren] = useState([]);
 
@@ -15,9 +16,26 @@ function Main() {
       }, []);
 
     const getProperties = () => {
-        axios.get(baseURL).then((response) => {
+        axios.get(baseURL)
+        .then(function (response) {
             setProperties(response.data.data);
+        })
+        .catch(function (error) {
+            console.log(error.response.data);
         });
+    }
+
+    const getProperty = (property) => {
+        axios.get(baseURL + '/' + property.name)
+        .then(function (response) {
+            setProperty(response.data.data);
+        })
+        .catch(function (error) {
+            console.log(error.response.data);
+        });
+
+        let getModal = new Modal(document.getElementById('getModal'));
+        getModal.show();
     }
     
     const addProperty = (property) => {
@@ -54,12 +72,11 @@ function Main() {
             children: property.children,
         })
         .then(function (response) {
-            console.log(response);
             getProperties();
             resetInputs();
         })
         .catch(function (error) {
-            console.log(error);
+            console.log(error.response.data);
         })
     }
 
@@ -71,7 +88,7 @@ function Main() {
       };
 
     return (
-        <PropertiesList properties={properties} parents={parents} children={children} onAddProperty={addProperty} onSaveProperty={saveProperty}/>
+        <PropertiesList properties={properties} property={property} parents={parents} children={children} onAddProperty={addProperty} onSaveProperty={saveProperty} onGetProperty={getProperty}/>
     );
 }
 
