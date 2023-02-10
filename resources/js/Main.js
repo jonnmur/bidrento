@@ -38,29 +38,51 @@ function Main() {
         getModal.show();
     }
     
-    const addProperty = (property) => {
-        let children = [];
-
+    const addProperty = async (property) => {
         if (property !== null) {
-            setParents([property]);
+            const response = await axios.get(baseURL + '/' + property.name);
 
-            let siblings = property.children.map((child) =>  child);
+            // Parents
+            const parentIds = response.data.data.filter((item) => item.relation === 'sibling').map((item) => (item.id));
+            const parents = [property];
 
-            siblings.forEach(sibling => {
-                sibling.children.forEach(child => {
-                    children.push(child);
+            // Add parents siblings
+            properties.forEach((parent) => {
+                parent.children.forEach((sibling) => {
+                    parentIds.forEach((id) => {
+                        if (sibling.id === id) {
+                            parents.push(sibling);
+                        }
+                    });
                 });
             });
+
+            // Children
+            const children = [];
+            
+            // Add grandChildren to parent
+            parents.forEach((parent) => {
+                parent.children.forEach((child) => {
+                    child.children.forEach((grandChild) => {
+                        children.push(grandChild);
+                    });
+                });
+            });
+
+            if (parents.length > 0) {
+                setParents(parents);
+            }
+            
+            if (children.length > 0) {
+                // Remove duplicates and set
+                setChildren([...new Map(children.map(item => [item['id'], item])).values()]);
+            }
+
         } else {
             setParents([]);
-        }
-
-        if (children.length > 0) {
-            setChildren([...new Map(children.map(item => [item['id'], item])).values()]);
-        } else {
             setChildren([]);
         }
-    
+
         let addModal = new Modal(document.getElementById('addModal'));
         addModal.show();
     }
@@ -73,11 +95,17 @@ function Main() {
         })
         .then(function (response) {
             getProperties();
+            setParents([]);
+            setChildren([]);
             resetInputs();
         })
         .catch(function (error) {
             console.log(error.response.data);
         })
+    }
+
+    const closeProperty = () => {
+        resetInputs();
     }
 
     const resetInputs = () => {
@@ -88,7 +116,7 @@ function Main() {
       };
 
     return (
-        <PropertiesList properties={properties} property={property} parents={parents} children={children} onAddProperty={addProperty} onSaveProperty={saveProperty} onGetProperty={getProperty}/>
+        <PropertiesList properties={properties} property={property} parents={parents} children={children} onAddProperty={addProperty} onSaveProperty={saveProperty} onGetProperty={getProperty} onCloseProperty={closeProperty}/>
     );
 }
 

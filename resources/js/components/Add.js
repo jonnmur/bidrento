@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Add({ parents, children, onSaveProperty}) {
+export default function Add({ parents, children, onSaveProperty, onCloseProperty }) {
     const name = document.getElementById('name');
     const selectedChildren = document.getElementById('childIds');
 
@@ -11,7 +11,7 @@ export default function Add({ parents, children, onSaveProperty}) {
                 <div className="modal-content">
                 <div className="modal-header">
                     <h1 className="modal-title fs-5" id="addModalLabel">Add property</h1>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => onCloseProperty()}></button>
                 </div>
                 <div className="modal-body">
                 <div className="mb-3">
@@ -21,11 +21,11 @@ export default function Add({ parents, children, onSaveProperty}) {
                     <br></br>
 
                     <p>Parents:</p>
+                    <select className="form-select" multiple aria-label="parentIds" id="parentIds">
                     {parents.length > 0 && parents.map((parent) =>
-                        <div key={parent.id}>
-                            {parent.name}
-                        </div>
+                        <option key={parent.id} value={parent.id}>{parent.name}</option>
                     )}
+                    </select>
 
                     <br></br>
 

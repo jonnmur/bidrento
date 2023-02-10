@@ -1,7 +1,7 @@
 import Add from './Add';
 import Property from './Property';
 
-const PropertiesList = ({ properties, property, onAddProperty, onSaveProperty, onGetProperty, parents, children }) => {
+const PropertiesList = ({ properties, property, onAddProperty, onSaveProperty, onGetProperty, onCloseProperty, parents, children }) => {
 
     const getChildren = (item, level) => {
         return (
@@ -44,7 +44,7 @@ const PropertiesList = ({ properties, property, onAddProperty, onSaveProperty, o
                     {getChildren(property, ' - ')}
                 </div>
             )}
-            <Add parents={parents} children={children} onSaveProperty={onSaveProperty}/>
+            <Add parents={parents} children={children} onSaveProperty={onSaveProperty} onCloseProperty={onCloseProperty}/>
             <Property property={property}/>
         </div>
     );
