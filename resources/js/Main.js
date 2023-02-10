@@ -16,7 +16,7 @@ function Main() {
         setProperty([]);
         setParents([]);
         setChildren([]);
-        getProperties([]);
+        getProperties();
       }, []);
 
     const getProperties = () => {

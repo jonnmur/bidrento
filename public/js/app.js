@@ -5363,7 +5363,7 @@ function Main() {
     setProperty([]);
     setParents([]);
     setChildren([]);
-    getProperties([]);
+    getProperties();
   }, []);
   var getProperties = function getProperties() {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(baseURL).then(function (response) {
