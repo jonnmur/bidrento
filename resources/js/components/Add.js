@@ -2,6 +2,7 @@ import React from 'react';
 
 export default function Add({ parents, children, onSaveProperty, onCloseProperty }) {
     const name = document.getElementById('name');
+    const selectedParents = document.getElementById('parentIds');
     const selectedChildren = document.getElementById('childIds');
 
     return (
@@ -47,8 +48,8 @@ export default function Add({ parents, children, onSaveProperty, onCloseProperty
                         onClick={() => onSaveProperty(
                             {
                                 name: name.value,
-                                parents: parents.map((parent) =>  parent.id),
-                                children: [...selectedChildren.selectedOptions].map(option => option.value)
+                                parents: [...selectedParents.selectedOptions].map(option => option.value),
+                                children: [...selectedChildren.selectedOptions].map(option => option.value),
                             }
                         )}>
                         Save

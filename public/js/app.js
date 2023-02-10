@@ -5359,7 +5359,11 @@ function Main() {
     children = _useState8[0],
     setChildren = _useState8[1];
   react__WEBPACK_IMPORTED_MODULE_1__.useEffect(function () {
-    getProperties();
+    setProperties([]);
+    setProperty([]);
+    setParents([]);
+    setChildren([]);
+    getProperties([]);
   }, []);
   var getProperties = function getProperties() {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(baseURL).then(function (response) {
@@ -5444,11 +5448,12 @@ function Main() {
       return _ref.apply(this, arguments);
     };
   }();
-  var saveProperty = function saveProperty(property) {
+  var saveProperty = function saveProperty(_saveProperty) {
+    console.log(_saveProperty);
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(baseURL, {
-      name: property.name,
-      parents: property.parents,
-      children: property.children
+      name: _saveProperty.name,
+      parents: _saveProperty.parents,
+      children: _saveProperty.children
     }).then(function (response) {
       getProperties();
       setParents([]);
@@ -5459,6 +5464,8 @@ function Main() {
     });
   };
   var closeProperty = function closeProperty() {
+    setParents([]);
+    setChildren([]);
     resetInputs();
   };
   var resetInputs = function resetInputs() {
@@ -5576,6 +5583,7 @@ function Add(_ref) {
     onSaveProperty = _ref.onSaveProperty,
     onCloseProperty = _ref.onCloseProperty;
   var name = document.getElementById('name');
+  var selectedParents = document.getElementById('parentIds');
   var selectedChildren = document.getElementById('childIds');
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -5649,8 +5657,8 @@ function Add(_ref) {
               onClick: function onClick() {
                 return onSaveProperty({
                   name: name.value,
-                  parents: parents.map(function (parent) {
-                    return parent.id;
+                  parents: _toConsumableArray(selectedParents.selectedOptions).map(function (option) {
+                    return option.value;
                   }),
                   children: _toConsumableArray(selectedChildren.selectedOptions).map(function (option) {
                     return option.value;

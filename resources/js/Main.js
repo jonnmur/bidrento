@@ -12,7 +12,11 @@ function Main() {
     const [children, setChildren] = useState([]);
 
     React.useEffect(() => {
-        getProperties();
+        setProperties([]);
+        setProperty([]);
+        setParents([]);
+        setChildren([]);
+        getProperties([]);
       }, []);
 
     const getProperties = () => {
@@ -87,11 +91,12 @@ function Main() {
         addModal.show();
     }
 
-    const saveProperty = (property) => {
+    const saveProperty = (saveProperty) => {
+        console.log(saveProperty);
         axios.post(baseURL, {
-            name: property.name,
-            parents: property.parents,
-            children: property.children,
+            name: saveProperty.name,
+            parents: saveProperty.parents,
+            children: saveProperty.children,
         })
         .then(function (response) {
             getProperties();
@@ -105,6 +110,8 @@ function Main() {
     }
 
     const closeProperty = () => {
+        setParents([]);
+        setChildren([]);
         resetInputs();
     }
 
