@@ -670,12 +670,6 @@ progress {
   margin-right: calc(-0.5 * var(--bs-gutter-x));
   margin-left: calc(-0.5 * var(--bs-gutter-x));
 }
-
-.row:hover {
-  background-color: #dbdcdf;
-  cursor: pointer;
-}
-
 .row > * {
   flex-shrink: 0;
   width: 100%;
@@ -10824,4 +10818,8 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+.row:hover {
+    background-color: rgba(208, 208, 208, 0.321);
+    cursor: pointer;
 }
