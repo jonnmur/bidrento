@@ -14,11 +14,11 @@
 2. Development server should start at `http://localhost:8000`, so open in browser: `http://localhost:8000`.
 3. If you would like to test the API then make requests to these endpoints:
 
-### GET
+#### GET - Get properties tree
 `http://localhost:8000/api/property`
-### GET
+#### GET - Get one property
 `http://localhost:8000/api/property/{property-name}`
-### POST
+#### POST - Add new property
 `http://localhost:8000/api/property`
 + Example payload:
 ```json
