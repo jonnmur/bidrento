@@ -11,7 +11,7 @@
 ## Usage
 
 1. Run `php artisan serve` to start the PHP development server.
-2. Development server should start at `http://localhost:8000`.
+2. Development server should start at, so open in browser: `http://localhost:8000`.
 
 ## Created files for this assignment
 
