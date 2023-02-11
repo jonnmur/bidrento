@@ -7,7 +7,6 @@ use App\Models\Property\Node;
 use Illuminate\Database\QueryException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -69,7 +68,9 @@ class NodeController extends Controller
             }
         }
 
-        return new NodeResource(Arr::sort($data));
+        array_multisort(array_column($data, 'name'), SORT_ASC, $data);
+
+        return new NodeResource($data);
     }
 
     public function store(Request $request)

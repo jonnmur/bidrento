@@ -16,6 +16,10 @@ class Node extends Model
         'name' => 'string',
     ];
 
+    protected $hidden = [
+        'pivot',
+    ];
+
     public $timestamps = false;
 
     public function parents()
