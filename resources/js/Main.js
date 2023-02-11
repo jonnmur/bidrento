@@ -19,24 +19,22 @@ function Main() {
         getProperties();
       }, []);
 
-    const getProperties = () => {
-        axios.get(baseURL)
-        .then(function (response) {
+    const getProperties = async () => {
+        try {
+            const response = await axios.get(baseURL);
             setProperties(response.data.data);
-        })
-        .catch(function (error) {
+        } catch (error) {
             console.log(error.response.data);
-        });
+        }
     }
 
-    const getProperty = (property) => {
-        axios.get(baseURL + '/' + property.name)
-        .then(function (response) {
+    const getProperty = async (property) => {
+        try {
+            const response = await axios.get(baseURL + '/' + property.name);
             setProperty(response.data.data);
-        })
-        .catch(function (error) {
+        } catch (error) {
             console.log(error.response.data);
-        });
+        }
 
         let getModal = new Modal(document.getElementById('getModal'));
         getModal.show();
@@ -44,44 +42,47 @@ function Main() {
     
     const addProperty = async (property) => {
         if (property !== null) {
-            const response = await axios.get(baseURL + '/' + property.name);
+            try {
+                const response = await axios.get(baseURL + '/' + property.name);
 
-            // Parents
-            const parentIds = response.data.data.filter((item) => item.relation === 'sibling').map((item) => (item.id));
-            const parents = [property];
+                // Parents
+                const parentIds = response.data.data.filter((item) => item.relation === 'sibling').map((item) => (item.id));
+                const parents = [property];
 
-            // Add parents siblings
-            properties.forEach((parent) => {
-                parent.children.forEach((sibling) => {
-                    parentIds.forEach((id) => {
-                        if (sibling.id === id) {
-                            parents.push(sibling);
-                        }
+                // Add parents siblings
+                properties.forEach((parent) => {
+                    parent.children.forEach((sibling) => {
+                        parentIds.forEach((id) => {
+                            if (sibling.id === id) {
+                                parents.push(sibling);
+                            }
+                        });
                     });
                 });
-            });
 
-            // Children
-            const children = [];
-            
-            // Add grandChildren to parent
-            parents.forEach((parent) => {
-                parent.children.forEach((child) => {
-                    child.children.forEach((grandChild) => {
-                        children.push(grandChild);
+                // Children
+                const children = [];
+                
+                // Add grandChildren to parent
+                parents.forEach((parent) => {
+                    parent.children.forEach((child) => {
+                        child.children.forEach((grandChild) => {
+                            children.push(grandChild);
+                        });
                     });
                 });
-            });
 
-            if (parents.length > 0) {
-                setParents(parents);
+                if (parents.length > 0) {
+                    setParents(parents);
+                }
+                
+                if (children.length > 0) {
+                    // Remove duplicates and set
+                    setChildren([...new Map(children.map(item => [item['id'], item])).values()]);
+                }
+            } catch (error) {
+                console.log(error.response.data);
             }
-            
-            if (children.length > 0) {
-                // Remove duplicates and set
-                setChildren([...new Map(children.map(item => [item['id'], item])).values()]);
-            }
-
         } else {
             setParents([]);
             setChildren([]);
@@ -91,22 +92,31 @@ function Main() {
         addModal.show();
     }
 
-    const saveProperty = (saveProperty) => {
-        console.log(saveProperty);
-        axios.post(baseURL, {
-            name: saveProperty.name,
-            parents: saveProperty.parents,
-            children: saveProperty.children,
-        })
-        .then(function (response) {
+    const saveProperty = async (saveProperty) => {
+        try {
+            const response = await axios.post(baseURL, {
+                name: saveProperty.name,
+                parents: saveProperty.parents,
+                children: saveProperty.children,
+            });
+
             getProperties();
             setParents([]);
             setChildren([]);
             resetInputs();
-        })
-        .catch(function (error) {
-            console.log(error.response.data);
-        })
+        } catch (error) {
+            handleValidationErrors(error);
+        }
+    }
+
+    const handleValidationErrors = (error) => {
+        Object.keys(error.response.data).forEach(k1 => {
+            Object.keys(error.response.data[k1]).forEach(k2 => {
+                error.response.data[k1][k2].forEach((err) => {
+                    alert(err);
+                });
+            });
+        });
     }
 
     const closeProperty = () => {
