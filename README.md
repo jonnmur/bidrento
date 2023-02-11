@@ -44,15 +44,15 @@ The task:
 The goal of the test task is to create a service that stores and shows the organization of rental properties (parent/child/sibling).
 
 Example of rental properties:
-— Building complex
-— — Building 1
-— — — Parking space 1
-— — Building 2
-— — — Parking space 4
-— — — Shared parking space 1
-— — Building 3
-— — — Shared parking space 1
-— — — Parking space 8
++— Building complex
++— — Building 1
++— — — Parking space 1
++— — Building 2
++— — — Parking space 4
++— — — Shared parking space 1
++— — Building 3
++— — — Shared parking space 1
++— — — Parking space 8
 
 Where: All property names are unique, parking spaces can be shared between Buildings (one parking space used by tenants from different buildings).
 
