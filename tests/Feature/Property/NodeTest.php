@@ -100,7 +100,7 @@ class NodeTest extends TestCase
         ]);
     }
 
-    public function testApiReturns_404IfPropertyNotFound()
+    public function testApiReturns404IfPropertyNotFound()
     {
         // Create properties
         $property0 = new Node();
