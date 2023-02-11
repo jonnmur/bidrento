@@ -75,6 +75,7 @@ Tests are optional, but very welcomed
 The very first level node(s) you create are root level. Root level nodes are not relatives and can not have parents.
 Everything you create under root level nodes can be nested as much as you want. Nodes can have multiple parents if parents are siblings and multiple children that are same level.
 
-Node version: v18.13.0
-Laravel version: 8.75
-PHP version: 7.4.6
++ Node version: v18.13.0
++ React version: 17.0.2
++ Laravel version: 8.75
++ PHP version: 7.4.6
