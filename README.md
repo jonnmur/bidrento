@@ -21,11 +21,13 @@
 ### POST
 `http://localhost:8000/api/property`
 + Example payload:
-`json{
+```json
+{
     "name": "Hotel 1",
     "parents": [4, 5],
     "children": [11, 14]
-}`
+}
+```
 
 ## Created files for this assignment
 
