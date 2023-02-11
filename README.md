@@ -11,7 +11,21 @@
 ## Usage
 
 1. Run `php artisan serve` to start the PHP development server.
-2. Development server should start at, so open in browser: `http://localhost:8000`.
+2. Development server should start at `http://localhost:8000`, so open in browser: `http://localhost:8000`.
+3. If you would like to test the API then make requests to these endpoints:
+
+### GET
+`http://localhost:8000/api/property`
+### GET
+`http://localhost:8000/api/property/{property-name}`
+### POST
+`http://localhost:8000/api/property`
++ Example payload:
+`json{
+    "name": "Hotel 1",
+    "parents": [4, 5],
+    "children": [11, 14]
+}`
 
 ## Created files for this assignment
 
