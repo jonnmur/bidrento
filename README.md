@@ -36,7 +36,7 @@
 
 ## Testing
 
-1. Run `php artisan test` or `./vendor/bin/phpunit --testdox`.
++ Run `php artisan test` or `./vendor/bin/phpunit --testdox`.
 
 ## Assignment information
 
