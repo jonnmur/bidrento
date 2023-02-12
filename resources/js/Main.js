@@ -39,26 +39,36 @@ function Main() {
         let getModal = new Modal(document.getElementById('getModal'));
         getModal.show();
     }
-    
+
+    const flat = (items) => {
+        var result = [];
+        
+        items.forEach((item) => {
+            result.push(item);
+            if (Array.isArray(item.children)) {
+                result = result.concat(flat(item.children));
+            }
+        });
+
+        return result;
+    }
+
     const addProperty = async (property) => {
         if (property !== null) {
             try {
                 const response = await axios.get(baseURL + '/' + property.name);
-
-                // Parents
-                const parentIds = response.data.data.filter((item) => item.relation === 'sibling').map((item) => (item.id));
-                const parents = [property];
-
-                // Add parents siblings
-                properties.forEach((parent) => {
-                    parent.children.forEach((sibling) => {
-                        parentIds.forEach((id) => {
-                            if (sibling.id === id) {
-                                parents.push(sibling);
-                            }
-                        });
-                    });
-                });
+                
+                let subTree;
+                let parents;
+                
+                const rootId = response.data.data.filter((item) => item.relation === 'parent').map((item) => (item.id));
+                
+                if (rootId.length > 0) {
+                    subTree = flat(properties).find((item) => item.id === rootId[0]);
+                    parents = subTree.children;
+                } else {
+                    parents = properties;
+                }
 
                 // Children
                 const children = [];

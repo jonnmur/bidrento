@@ -5424,14 +5424,24 @@ function Main() {
       return _ref2.apply(this, arguments);
     };
   }();
+  var flat = function flat(items) {
+    var result = [];
+    items.forEach(function (item) {
+      result.push(item);
+      if (Array.isArray(item.children)) {
+        result = result.concat(flat(item.children));
+      }
+    });
+    return result;
+  };
   var addProperty = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(property) {
-      var response, parentIds, _parents, _children, addModal;
+      var response, subTree, _parents, rootId, _children, addModal;
       return _regeneratorRuntime().wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
             if (!(property !== null)) {
-              _context3.next = 19;
+              _context3.next = 18;
               break;
             }
             _context3.prev = 1;
@@ -5439,22 +5449,19 @@ function Main() {
             return axios__WEBPACK_IMPORTED_MODULE_0___default().get(baseURL + '/' + property.name);
           case 4:
             response = _context3.sent;
-            // Parents
-            parentIds = response.data.data.filter(function (item) {
-              return item.relation === 'sibling';
+            rootId = response.data.data.filter(function (item) {
+              return item.relation === 'parent';
             }).map(function (item) {
               return item.id;
             });
-            _parents = [property]; // Add parents siblings
-            properties.forEach(function (parent) {
-              parent.children.forEach(function (sibling) {
-                parentIds.forEach(function (id) {
-                  if (sibling.id === id) {
-                    _parents.push(sibling);
-                  }
-                });
+            if (rootId.length > 0) {
+              subTree = flat(properties).find(function (item) {
+                return item.id === rootId[0];
               });
-            });
+              _parents = subTree.children;
+            } else {
+              _parents = properties;
+            }
 
             // Children
             _children = []; // Add grandChildren to parent
@@ -5474,26 +5481,26 @@ function Main() {
                 return [item['id'], item];
               })).values()));
             }
-            _context3.next = 17;
+            _context3.next = 16;
             break;
-          case 14:
-            _context3.prev = 14;
+          case 13:
+            _context3.prev = 13;
             _context3.t0 = _context3["catch"](1);
             console.log(_context3.t0.response.data);
-          case 17:
-            _context3.next = 21;
+          case 16:
+            _context3.next = 20;
             break;
-          case 19:
+          case 18:
             setParents([]);
             setChildren([]);
-          case 21:
+          case 20:
             addModal = new bootstrap__WEBPACK_IMPORTED_MODULE_4__.Modal(document.getElementById('addModal'));
             addModal.show();
-          case 23:
+          case 22:
           case "end":
             return _context3.stop();
         }
-      }, _callee3, null, [[1, 14]]);
+      }, _callee3, null, [[1, 13]]);
     }));
     return function addProperty(_x3) {
       return _ref3.apply(this, arguments);
