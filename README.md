@@ -1,64 +1,97 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## Setup
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+1. Clone repository `git clone git@github.com:jonnmur/bidrento.git`.
+2. Run `composer install`.
+3. Modify `.env` with correct database parameters.
+4. Run `php artisan key:generate`.
+5. Run `php artisan migrate`.
+6. Run `npm install`.
+7. Run `npm run development`.
 
-## About Laravel
+## Usage
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. Run `php artisan serve` to start the PHP development server.
+2. Development server should start at `http://localhost:8000`, so open in browser: `http://localhost:8000`.
+3. If you would like to test the API then make requests to these endpoints:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+#### GET - Get properties tree
+`http://localhost:8000/api/property`
+#### GET - Get one property
+`http://localhost:8000/api/property/{property-name}`
+#### POST - Add new property
+`http://localhost:8000/api/property`
++ Example payload:
+```json
+{
+    "name": "Hotel 1",
+    "parents": [4, 5],
+    "children": [11, 14]
+}
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Created files for this assignment
 
-## Learning Laravel
++ /app/Http/Controllers/Property/NodeController.php
++ /app/Http/Resources/Property/NodeResource.php
++ /app/Models/Property/Edge.php
++ /app/Models/Property/Node.php
++ /tests/Feature/Property/NodeTest.php
++ /database/migrations/2023_02_07_152530_create_edges_table.php
++ /database/migrations/2023_02_07_152530_create_nodes_table.php
++ /resources/js/app.js
++ /resources/js/Main.js
++ /resources/js/components/Add.js
++ /resources/js/components/PropertiesList.js
++ /resources/js/components/Property.js
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Modified files for this assignment
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
++ /routes/api.php
++ /config/database.php
++ /phpunit.xml
 
-## Laravel Sponsors
+## Testing
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
++ Run `php artisan test` or `./vendor/bin/phpunit --testdox`.
 
-### Premium Partners
+## Assignment information
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+The task:
+The goal of the test task is to create a service that stores and shows the organization of rental properties (parent/child/sibling).
 
-## Contributing
+Example of rental properties:
++ — Building complex
++ — — Building 1
++ — — — Parking space 1
++ — — Building 2
++ — — — Parking space 4
++ — — — Shared parking space 1
++ — — Building 3
++ — — — Shared parking space 1
++ — — — Parking space 8
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Where: All property names are unique, parking spaces can be shared between Buildings (one parking space used by tenants from different buildings).
 
-## Code of Conduct
+DOD:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+REST API endpoint to retrieve full property tree
+REST API endpoint to retrieve selected property (for example, building) with all its children, parents, siblings (For “Shared parking space 1” parents are “Building 2" and “Building 3”, siblings are “Parking space 4" and “Parking space 8” and no children). Returned structure should be “flat” sorted by property name, for example: [{“property”:“Building 1",“relation”:“parent”},{“property”:“Building 2",“relation”:“parent”},{“property”:“Parking space 4",“relation”:“ sibling”},{“property”:“Parking space 8",“relation”:“ sibling”},{“property”:“Shared parking space 1",“relation”:null}]
+REST API endpoint to add a new property to any level of a tree.
+Basic web app to display data requested via API.
 
-## Security Vulnerabilities
+Requirements:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Backend programming language: PHP
+Database: MySQL
+Frontend programming language: React
+Tests are optional, but very welcomed
 
-## License
+## Extra notes
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The very first level node(s) you create are root level. Root level nodes are not relatives and can not have parents.
+Everything you create under root level nodes can be nested as much as you want. Nodes can have multiple parents if parents are siblings and multiple children that are same level.
+
++ Node version: v18.13.0
++ React version: 17.0.2
++ PHP version: 7.4.6
++ Laravel version: 8.75
