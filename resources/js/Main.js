@@ -67,7 +67,7 @@ function Main() {
                     subTree = flat(properties).find((item) => item.id === rootId[0]);
                     parents = subTree.children;
                 } else {
-                    parents = properties;
+                    parents = [property];
                 }
 
                 // Children
