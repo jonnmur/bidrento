@@ -31,7 +31,8 @@ function Main() {
     const getProperty = async (property) => {
         try {
             const response = await axios.get(baseURL + '/' + property.name);
-            setProperty(response.data.data);
+            // Remove duplicates and set
+            setProperty([...new Map(response.data.data.map(item => [item['id'], item])).values()]);
         } catch (error) {
             console.log(error.response.data);
         }

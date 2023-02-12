@@ -5404,7 +5404,10 @@ function Main() {
             return axios__WEBPACK_IMPORTED_MODULE_0___default().get(baseURL + '/' + property.name);
           case 3:
             response = _context2.sent;
-            setProperty(response.data.data);
+            // Remove duplicates and set
+            setProperty(_toConsumableArray(new Map(response.data.data.map(function (item) {
+              return [item['id'], item];
+            })).values()));
             _context2.next = 10;
             break;
           case 7:
