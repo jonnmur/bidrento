@@ -92,3 +92,7 @@ Tests are optional, but very welcomed
 + React version: 17.0.2
 + PHP version: 7.4.6
 + Laravel version: 8.75
+
+## Examples
+
+![example-tree](https://user-images.githubusercontent.com/28568108/218317237-54d51c71-ccd9-44b5-b4fe-0a1b33529797.png)
