@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function Add({ parents, children, onSaveProperty, onCloseProperty }) {
     const name = document.getElementById('name');
     const selectedParents = document.getElementById('parentIds');
