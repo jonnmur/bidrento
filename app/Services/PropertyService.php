@@ -77,7 +77,6 @@ class PropertyService
 
     public static function save(array $data)
     {
-
         DB::beginTransaction();
 
         try {
