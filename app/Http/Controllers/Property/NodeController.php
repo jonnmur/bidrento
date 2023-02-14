@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Property;
 
 use App\Exceptions\InvalidPropertyException;
-use App\Http\Resources\Property\NodeResource;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Property\NodeResource;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
