@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Property;
 
+use App\Exceptions\InvalidPropertyException;
 use App\Http\Resources\Property\NodeResource;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Exception;
 
 use App\Services\PropertyService;
 
@@ -24,7 +25,7 @@ class NodeController extends Controller
         $property = PropertyService::getByName($name);
 
         if (empty($property)) {
-            return response()->json(['message' => 'Not found'], 404);
+            return response(['message' => 'Not found'], 404);
         }
         
         return new NodeResource($property);
@@ -51,16 +52,16 @@ class NodeController extends Controller
             $property = PropertyService::save($request->all());
 
             if (!empty($property)) {
-                return response()->json([
+                return response([
                     'message' => 'Node Created',
                     'data' => new NodeResource($property)
                 ], 201);
             }
         
+        } catch (InvalidPropertyException $e) {
+            return response(['errors' => $e->getErrors()], $e->getStatus());
         } catch (Exception $e) {
-            return response()->json([
-                'errors' => $e->getMessage(),
-            ], $e->getCode());
+            return response(['message' => $e->getMessage()], $e->getCode());
         }
     }
 }

@@ -6,6 +6,8 @@ use App\Models\Property\Node;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use App\Exceptions\InvalidPropertyException;
+use Illuminate\Http\Response;
 
 class PropertyService
 {
@@ -75,6 +77,7 @@ class PropertyService
 
     public static function save(array $data)
     {
+
         DB::beginTransaction();
 
         try {
@@ -102,7 +105,7 @@ class PropertyService
                     $node->parents()->attach($data['parents']);
                 }
                 else {
-                    throw new Exception('Parent nodes are not same level', 422);
+                    throw new InvalidPropertyException(['parents' => ['Parent nodes are not same level']], 422);
                 }
 
                 // Add children
@@ -116,7 +119,7 @@ class PropertyService
                     }
 
                     if (!empty((array_diff($data['children'], $allowedChildNodes)))) {
-                        throw new Exception('Invalid children', 422);
+                        throw new InvalidPropertyException(['children' => ['Invalid children']], 422);
                     }
 
                     $node->children()->attach($data['children']);
