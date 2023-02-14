@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
+use App\Exceptions\InvalidPropertyException;
 use App\Models\Property\Node;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
-use App\Exceptions\InvalidPropertyException;
-use Illuminate\Http\Response;
 
 class PropertyService
 {
