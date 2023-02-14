@@ -247,7 +247,7 @@ class NodeTest extends TestCase
 
         $response->assertStatus(422);
 
-        $this->assertEquals('Parent nodes are not same level', $response->json()['errors']['parents'][0]);
+        $this->assertEquals('Parent nodes are not same level', $response->json()['errors']);
     }
 
     public function testApiReturns422IfParentDuplicated()
@@ -356,7 +356,7 @@ class NodeTest extends TestCase
 
         $response->assertStatus(422);
 
-        $this->assertEquals('Invalid children', $response->json()['errors']['children'][0]);
+        $this->assertEquals('Invalid children', $response->json()['errors']);
     }
 
     public function testApiReturns422IfChildDuplicated()
@@ -416,7 +416,7 @@ class NodeTest extends TestCase
 
         $response->assertStatus(422);
 
-        $this->assertEquals('Invalid children', $response->json()['errors']['children'][0]);
+        $this->assertEquals('Invalid children', $response->json()['errors']);
     }
 
     public function testPropertyCanHaveMultipleParentsWhoAreSiblings()
@@ -479,6 +479,6 @@ class NodeTest extends TestCase
 
         $response->assertStatus(422);
 
-        $this->assertEquals('Parent nodes are not same level', $response->json()['errors']['parents'][0]);
+        $this->assertEquals('Parent nodes are not same level', $response->json()['errors']);
     }
 }
