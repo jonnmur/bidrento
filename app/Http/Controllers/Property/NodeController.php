@@ -21,10 +21,10 @@ class NodeController extends Controller
 
     public function show(String $name)
     {
-        try {
-            $property = PropertyService::getByName($name);
-        } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        $property = PropertyService::getByName($name);
+
+        if (empty($property)) {
+            return response()->json(['message' => 'Not found'], 404);
         }
         
         return new NodeResource($property);
@@ -59,7 +59,7 @@ class NodeController extends Controller
         
         } catch (Exception $e) {
             return response()->json([
-                'message' => $e->getMessage(),
+                'errors' => $e->getMessage(),
             ], $e->getCode());
         }
     }

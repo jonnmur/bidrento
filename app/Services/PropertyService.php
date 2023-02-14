@@ -19,13 +19,13 @@ class PropertyService
         $node = Node::where('name', $name)->with('parents', 'children')->first();
 
         if (empty($node)) {
-            throw new Exception('Not found', 404);
+            return;
         }
 
         return self::flatten($node);
     }
 
-    private static function flatten($node)
+    private static function flatten(Node $node)
     {
         $data = [];
 
