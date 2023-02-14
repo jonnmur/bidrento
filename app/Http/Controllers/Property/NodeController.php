@@ -3,74 +3,31 @@
 namespace App\Http\Controllers\Property;
 
 use App\Http\Resources\Property\NodeResource;
-use App\Models\Property\Node;
-use Illuminate\Database\QueryException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Exception;
+
+use App\Services\PropertyService;
 
 class NodeController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $nodes = Node::doesntHave('parents')->with('children')->get();
+        $properties = PropertyService::getAll();
 
-        return NodeResource::collection($nodes);
+        return NodeResource::collection($properties);
     }
 
     public function show(String $name)
     {
-        $node = Node::where('name', $name)->with('parents', 'children')->first();
-
-        if (empty($node)) {
-            return response()->json(['message' => 'Not Found'], 404);
+        try {
+            $property = PropertyService::getByName($name);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
-
-        $data = [];
-
-        // Self
-        $data[] = [
-            'id' => $node->id,
-            'name' => $node->name,
-            'relation' => null,
-        ];
-
-        // Parents and siblings
-        if (!empty($node->parents)) {
-            foreach ($node->parents as $parent) {
-                $data[] = [
-                    'id' => $parent->id,
-                    'name' => $parent->name,
-                    'relation' => 'parent',
-                ];
-
-                foreach ($parent->children as $sibling) {
-                    if ($sibling->name !== $node->name) {
-                        $data[] = [
-                            'id' => $sibling->id,
-                            'name' => $sibling->name,
-                            'relation' => 'sibling',
-                        ];
-                    }
-                }
-            }
-        }
-
-        // Children
-        if (!empty($node->children)) {
-            foreach ($node->children as $child) {
-                $data[] = [
-                    'id' => $child->id,
-                    'name' => $child->name,
-                    'relation' => 'child',
-                ];
-            }
-        }
-
-        array_multisort(array_column($data, 'name'), SORT_ASC, $data);
-
-        return new NodeResource($data);
+        
+        return new NodeResource($property);
     }
 
     public function store(Request $request)
@@ -90,71 +47,20 @@ class NodeController extends Controller
             return response(['errors' => $validator->errors()], 422);
         }
 
-        DB::beginTransaction();
-
         try {
-            $node = new Node();
-            $node->name = $request->input('name');
-            $node->save();
+            $property = PropertyService::save($request->all());
 
-            // Add non root level node
-            if (!empty($request->input('parents'))) {
-                $parents = Node::whereIn('id', $request->input('parents'))->with(['parents', 'children'])->get();
-
-                // Make sure that parents nodes have same parents to confirm same level
-                $grandParents = collect();
-
-                foreach ($parents as $parent) {
-                    if ($parent->parents->empty()) {
-                        $grandParents[$parent->id] = null;
-                    }
-                    foreach ($parent->parents as $grandParent) {
-                        $grandParents[$parent->id] = $grandParent->id;
-                    }
-                }
-
-                // Add children
-                if (!empty($request->input('children'))) {
-                    $allowedChildNodes = [];
-
-                    foreach ($parents as $parent) {
-                        foreach ($parent->children as $sibling) {
-                            $allowedChildNodes = array_unique(array_merge($allowedChildNodes, $sibling->children->pluck('id')->toArray()));
-                        }
-                    }
-
-                    if (!empty((array_diff($request->input('children'), $allowedChildNodes)))) {
-                        return response()->json([
-                            'errors' => ['children' => ['Invalid children']]
-                        ], 422);
-                    }
-
-                    $node->children()->attach($request->input('children'));
-                }
-
-                if ($grandParents->unique()->count() === 1) {
-                    $node->parents()->attach($request->input('parents'));
-                }
-                else {
-                    return response()->json([
-                        'errors' => ['parents' => ['Parent nodes are not same level']]
-                    ], 422);
-                }
+            if (!empty($property)) {
+                return response()->json([
+                    'message' => 'Node Created',
+                    'data' => new NodeResource($property)
+                ], 201);
             }
-
-            DB::commit();
-
+        
+        } catch (Exception $e) {
             return response()->json([
-                'message' => 'Node Created',
-                'data' => new NodeResource($node)
-            ], 201);
-
-        } catch (QueryException $e) {
-            DB::rollback();
-
-            return response()->json([
-                'message' => 'Something went wrong'
-            ], 500);
+                'message' => $e->getMessage(),
+            ], $e->getCode());
         }
     }
 }
