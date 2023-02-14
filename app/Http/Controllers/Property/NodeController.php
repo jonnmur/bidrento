@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Property;
 use App\Exceptions\InvalidPropertyException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Property\NodeResource;
+use App\Services\PropertyService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
-use App\Services\PropertyService;
 
 class NodeController extends Controller
 {
