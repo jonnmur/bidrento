@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class PropertyService
 {
-    public static function getAll()
+    public function getAll()
     {
         return Node::doesntHave('parents')->with('children')->get();
     }
 
-    public static function getByName(String $name)
+    public function getByName(String $name)
     {
         $node = Node::where('name', $name)->with('parents', 'children')->first();
 
@@ -23,10 +23,10 @@ class PropertyService
             return;
         }
 
-        return self::flatten($node);
+        return $this->flatten($node);
     }
 
-    private static function flatten(Node $node)
+    private function flatten(Node $node)
     {
         $data = [];
 
@@ -74,7 +74,7 @@ class PropertyService
         return $data;
     }
 
-    public static function save(array $data)
+    public function save(array $data)
     {
         DB::beginTransaction();
 
@@ -128,7 +128,7 @@ class PropertyService
 
             return $node;
 
-        } catch (QueryException $e) {
+        } catch (Exception $e) {
             DB::rollback();
 
             throw new Exception('Something went wrong', 500);

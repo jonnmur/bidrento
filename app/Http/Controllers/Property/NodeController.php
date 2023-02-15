@@ -12,16 +12,23 @@ use Illuminate\Support\Facades\Validator;
 
 class NodeController extends Controller
 {
+    private $propertyService;
+
+    public function __construct(PropertyService $propertyService)
+    {
+        $this->propertyService = $propertyService;
+    }
+
     public function index()
     {
-        $properties = PropertyService::getAll();
+        $properties = $this->propertyService->getAll();
 
         return NodeResource::collection($properties);
     }
 
     public function show(String $name)
     {
-        $property = PropertyService::getByName($name);
+        $property = $this->propertyService->getByName($name);
 
         if (empty($property)) {
             return response(['message' => 'Not found'], 404);
@@ -48,7 +55,7 @@ class NodeController extends Controller
         }
 
         try {
-            $property = PropertyService::save($request->all());
+            $property = $this->propertyService->save($request->all());
 
             if (!empty($property)) {
                 return response([
